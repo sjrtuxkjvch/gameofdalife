@@ -23,8 +23,8 @@ public class LifParserTest {
         GameOfLifeState r = underTest.parse(stream);
         // THEN
         Assert.assertNotNull(r);
-        Assert.assertEquals(13, r.getWidth());
-        Assert.assertEquals(9, r.getHeight());
+        Assert.assertEquals(14, r.getWidth());
+        Assert.assertEquals(10, r.getHeight());
         Assert.assertTrue(r.get(0, 0));
         Assert.assertTrue(r.get(1, 0));
         Assert.assertTrue(r.get(2, 0));

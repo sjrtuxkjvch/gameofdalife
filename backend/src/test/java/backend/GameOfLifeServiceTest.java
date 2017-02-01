@@ -101,5 +101,7 @@ public class GameOfLifeServiceTest {
         GameOfLifeState out = underTest.getBuiltInState("breeder2");
         // THEN
         Assert.assertNotNull(out);
+        Assert.assertTrue(out.getWidth() > 2);
+        Assert.assertTrue(out.getHeight() > 2);
     }
 }
