@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>backend-webapp</artifactId>
+	<name>backend web application</name>
+	<packaging>war</packaging>
+
+    <parent>
+        <groupId>org.str</groupId>
+        <artifactId>gameoflife</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+	<properties>
+		<maven-war-plugin.version>2.4</maven-war-plugin.version>
+		<maven-javadoc-plugin.version>2.10.1</maven-javadoc-plugin.version>
+		<jetty-servlets.version>9.3.8.v20160314</jetty-servlets.version>
+	</properties>
+	
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+            </plugin>
+        </plugins>
+		
+    </build>
+	<dependencies>
+		<dependency>
+		    <groupId>${project.parent.groupId}</groupId>
+		    <artifactId>backend</artifactId>
+		    <version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.eclipse.jetty</groupId>
+		    <artifactId>jetty-servlets</artifactId>
+		    <version>${jetty-servlets.version}</version>
+		</dependency>
+    </dependencies>
+</project>
