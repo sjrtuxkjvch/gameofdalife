@@ -94,4 +94,12 @@ public class GameOfLifeServiceTest {
         // THEN
         Assert.assertTrue(out.get(1, 1));
     }
+
+    @Test
+    public void testBuiltins() {
+        // WHEN
+        GameOfLifeState out = underTest.getBuiltInState("breeder2");
+        // THEN
+        Assert.assertNotNull(out);
+    }
 }

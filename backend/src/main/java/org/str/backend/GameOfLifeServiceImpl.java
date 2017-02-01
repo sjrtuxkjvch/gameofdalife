@@ -1,6 +1,14 @@
 package org.str.backend;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class GameOfLifeServiceImpl implements GameOfLifeService {
+
+    private static final Logger logger = LoggerFactory.getLogger(GameOfLifeServiceImpl.class);
 
     @Override
     public GameOfLifeState calculateNextState(GameOfLifeState state) {
@@ -45,7 +53,7 @@ public class GameOfLifeServiceImpl implements GameOfLifeService {
             return r;
         } catch (IndexOutOfBoundsException e) {
             // inconsistent input data
-            return new GameOfLifeState(1, 1);
+            throw new RuntimeException("Inconsistent input data");
         }
     }
 
@@ -63,5 +71,20 @@ public class GameOfLifeServiceImpl implements GameOfLifeService {
             }
         }
         return count;
+    }
+
+    @Override
+    public GameOfLifeState getBuiltInState(String identifier) {
+        if (identifier.matches("[a-zA-Z0-9]+")) {
+            try (InputStream input = getClass().getClassLoader().getResourceAsStream(identifier + ".lif")) {
+                return new LifParser().parse(input);
+            } catch (IOException e) {
+                logger.error("Requested unknown built-in: {}", identifier);
+                throw new RuntimeException(e);
+            }
+        } else {
+            logger.error("Bad identifier");
+            throw new RuntimeException("Invalid identifier");
+        }
     }
 }

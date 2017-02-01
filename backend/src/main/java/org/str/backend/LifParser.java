@@ -70,10 +70,10 @@ public class LifParser {
             parser.removeErrorListeners();
             parser.addErrorListener(errorListener);
             ParserRuleContext tree;
-            tokens.fill();
-            for (int i = 0; i < tokens.size(); i++) {
-                System.out.println("Token " + i + " is " + tokens.get(i));
-            }
+            // tokens.fill();
+            // for (int i = 0; i < tokens.size(); i++) {
+            // System.out.println("Token " + i + " is " + tokens.get(i));
+            // }
             tree = parser.file();
             // walk the parse tree
             GameOfLifeState r = new GameBuilderVisitor().visit(tree);
@@ -83,8 +83,7 @@ public class LifParser {
         } catch (ParseCancellationException e) {
             logger.error("Parse cancelled: {}", e.getMessage() + errorListener.getMessage());
         } catch (Exception e) {
-            logger.error("Failed to parse expression '{}': {}", input, e.getMessage());
-            logger.error("^", e);
+            logger.error("Failed to parse input: {}", e.getMessage());
         }
         return new GameOfLifeState(1, 1);
     }
@@ -165,7 +164,13 @@ public class LifParser {
                         if (t.getType() == lifeparserLexer.STAR) {
                             // logger.info("Setting at {},{}", x + x0 -
                             // bounds.x, y + y0 - bounds.y);
-                            r.set(x + x0 - bounds.x, y + y0 - bounds.y);
+                            try {
+                                r.set(x + x0 - bounds.x, y + y0 - bounds.y);
+                            } catch (ArrayIndexOutOfBoundsException e) {
+                                logger.error("out of bounds: {},{} on {},{}", x + x0 - bounds.x, y + y0 - bounds.y,
+                                        bounds.w, bounds.h);
+                                throw e;
+                            }
                         }
                     }
                 }
@@ -181,7 +186,7 @@ public class LifParser {
             int x1 = Math.max(a.x + a.w, b.x + b.w);
             int y1 = Math.max(a.y + a.h, b.y + b.h);
             Rectangle r = new Rectangle(x0, y0, x1 - x0, y1 - y0);
-            logger.info("Union of {} and {} is {}", a, b, r);
+            // logger.info("Union of {} and {} is {}", a, b, r);
             return r;
         }
 
@@ -194,8 +199,7 @@ public class LifParser {
                 int h = ctx.content.size();
                 // maximum of line lengths is horizontal dimension
                 int w = ctx.content.stream().map((Content_lineContext c) -> c.chars.size()).max(Integer::max).orElse(0);
-                // (W, H already include the +1)
-                return new Rectangle(x, y, w, h);
+                return new Rectangle(x, y, w + 1, h + 1);
             } catch (NumberFormatException e) {
                 throw new ParseCancellationException(e);
             }
