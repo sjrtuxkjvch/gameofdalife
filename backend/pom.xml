@@ -37,5 +37,15 @@
 		    <artifactId>commons-io</artifactId>
 		    <version>${commons-io.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jackson-provider</artifactId>
+            <version>${resteasy.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>javax.ws.rs</groupId>
+		    <artifactId>javax.ws.rs-api</artifactId>
+		    <version>${javax.ws.version}</version>
+		</dependency>
     </dependencies>
 </project>

@@ -38,7 +38,7 @@
 		<logback.version>1.0.13</logback.version>
 		
 		<jacoco.version>0.7.2.201409121644</jacoco.version>
-		
+		<javax.ws.version>2.0.1</javax.ws.version>
 		<swagger-version>1.5.10</swagger-version>
 	</properties>
 
