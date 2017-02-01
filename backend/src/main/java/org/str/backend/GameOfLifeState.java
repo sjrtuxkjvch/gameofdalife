@@ -1,7 +1,12 @@
 package org.str.backend;
 
+import java.io.IOException;
+
+import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonRootName;
 
 @JsonRootName("applicationDescription")
@@ -48,5 +53,18 @@ public class GameOfLifeState {
 
     public int getHeight() {
         return height;
+    }
+
+    public static GameOfLifeState fromString(String input) throws Exception {
+        ObjectMapper om = new ObjectMapper();
+        try {
+            return om.readValue(input, GameOfLifeState.class);
+        } catch (JsonParseException e) {
+            throw e;
+        } catch (JsonMappingException e) {
+            throw e;
+        } catch (IOException e) {
+            throw e;
+        }
     }
 }

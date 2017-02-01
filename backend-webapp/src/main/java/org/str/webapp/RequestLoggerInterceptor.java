@@ -2,6 +2,7 @@ package org.str.webapp;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -24,10 +25,10 @@ public class RequestLoggerInterceptor implements ContainerRequestFilter, Contain
         logger.debug("Request received on path {}:", requestContext.getUriInfo().getAbsolutePath());
         logger.debug("Method: " + requestContext.getRequest().getMethod());
         try {
-            String json = IOUtils.toString(requestContext.getEntityStream());
+            String json = IOUtils.toString(requestContext.getEntityStream(), StandardCharsets.UTF_8);
             logger.debug("Content: " + json);
             // replace input stream for Jersey as we've already read it
-            InputStream in = IOUtils.toInputStream(json);
+            InputStream in = IOUtils.toInputStream(json, StandardCharsets.UTF_8);
             requestContext.setEntityStream(in);
         } catch (IOException ex) {
             logger.warn("Exception while request logging", ex);
